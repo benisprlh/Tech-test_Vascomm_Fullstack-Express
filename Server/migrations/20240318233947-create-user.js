@@ -29,6 +29,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.ENUM('inactive', 'active')
       },
+      role: {
+        allowNull: false,
+        type: Sequelize.ENUM('admin', 'user')
+      },
       deletedAt: {
         type: Sequelize.DATE
       },

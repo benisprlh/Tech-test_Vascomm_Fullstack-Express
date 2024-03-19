@@ -1,21 +1,22 @@
 const router = require('express').Router();
 const ControllerProduct = require('../controllers/controllerProduct');
-const { authorization } = require('../middlewares');
+const { authorization, authentication } = require('../middlewares');
 const multer = require('multer');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// router.post('/', ControllerPost.addPost);
 
-// router.get('/', ControllerPost.getPosts);
+router.get('/', ControllerProduct.getProducts);
 
-// router.get('/:id', ControllerPost.getPost);
+router.get('/:id', ControllerProduct.getProduct);
 
-// router.put('/:id', authorization, ControllerPost.updatePost);
+router.use(authentication, authorization)
 
+router.put('/:id',  upload.single('image'),ControllerProduct.updateProduct);
+
+router.post('/', upload.single('image'), ControllerProduct.addProduct);
 // router.delete('/:id', authorization, ControllerPost.deletePost);
 
-// router.patch('/:id', authorization, upload.single('image'), ControllerPost.updateUrlImage);
 
 module.exports = router;

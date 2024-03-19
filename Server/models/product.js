@@ -26,16 +26,27 @@ module.exports = (sequelize, DataTypes) => {
         },
       }
     },
-    price: DataTypes.INTEGER,
-    image: {
-      type: DataTypes.STRING,
+    price: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg : "Name is required"
+          msg : "Price is required"
         },
         notNull: {
-          msg : "Name is required"
+          msg : "Price is required"
+        },
+      }
+    },
+    image: {
+      type: DataTypes.BLOB,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg : "Image is required"
+        },
+        notNull: {
+          msg : "Image is required"
         },
       }
     },
@@ -44,7 +55,6 @@ module.exports = (sequelize, DataTypes) => {
       values: ['active', 'inactive'],
       defaultValue: 'active'
     },
-    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Product',

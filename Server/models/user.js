@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hashPassword } = require('../helper/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -31,22 +32,23 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg : "Name is required"
+          msg : "Phone Number is required"
         },
         notNull: {
-          msg : "Name is required"
+          msg : "Phone Number is required"
         },
       }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: {
-          msg : "Name is required"
+          msg : "Email is required"
         },
         notNull: {
-          msg : "Name is required"
+          msg : "Email is required"
         },
         isEmail: true
       }
@@ -56,10 +58,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg : "Name is required"
+          msg : "Password is required"
         },
         notNull: {
-          msg : "Name is required"
+          msg : "Password is required"
         },
       }
     },
@@ -68,15 +70,19 @@ module.exports = (sequelize, DataTypes) => {
       values: ['active', 'inactive'],
       defaultValue: 'active'
     },
-    status : {
+    role : {
       type: DataTypes.ENUM,
       values: ['admin', 'user'],
       defaultValue: 'user'
     },
-    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'User',
   });
+
+  User.beforeCreate((instance) => {
+    instance.password = hashPassword(instance.password);
+  });
+
   return User;
 };

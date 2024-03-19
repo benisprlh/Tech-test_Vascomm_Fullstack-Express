@@ -1,9 +1,17 @@
 const ControllerUser = require('../controllers/controllerUser');
-const { authorizationAddUser, authentication } = require('../middlewares');
+const { authentication, authorization } = require('../middlewares');
 const router = require('express').Router();
 
 router.post('/login', ControllerUser.login);
-router.use(authentication);
-router.post('/register', ControllerUser.addUser);
+
+router.post('/register', ControllerUser.register);
+
+router.use(authentication, authorization);
+
+router.put('/update/:id', ControllerUser.updateUser);
+
+router.get('/', ControllerUser.getUsers)
+
+router.get('/:id', ControllerUser.getUserById)
 
 module.exports = router;

@@ -11,19 +11,7 @@ async function authorization(req, res, next) {
   }
 }
 
-async function authorizationAddUser(req, res, next) {
-  try {
-    if (req.user.role === 'admin') {
-      return next();
-    } else {
-      throw { name: 'forbidden' };
-    }
-  } catch (error) {
-    next(error);
-  }
-}
 
 module.exports = {
   authorization,
-  authorizationAddUser,
 };

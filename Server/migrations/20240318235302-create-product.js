@@ -19,14 +19,11 @@ module.exports = {
       },
       image: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.BLOB
       },
       status: {
         allowNull: false,
         type: Sequelize.ENUM('inactive', 'active')
-      },
-      deletedAt: {
-        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,

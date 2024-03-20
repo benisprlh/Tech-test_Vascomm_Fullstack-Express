@@ -24,23 +24,6 @@ class ControllerProduct {
   static async getProducts(req, res, next) {
     const { take, skip, search } = req.query;
     let paramQuerySQL = {
-      include: [
-        {
-          association: "User",
-          attributes: [
-            "id",
-            "username",
-            "email",
-            "role",
-            "phoneNumber",
-            "adress",
-          ],
-        },
-        {
-          association: "Category",
-        },
-      ],
-      where: {},
       limit: 10,
       offset: 0,
       order: [["id", "ASC"]],
@@ -64,9 +47,16 @@ class ControllerProduct {
       paramQuerySQL.offset = offset;
     }
     try {
-      const dataProducts = await Product.findAll(paramQuerySQL);
-      res.status(200).json(dataProducts);
+      const dataProducts = await Product.findAll();
+      const newProducts = dataProducts.map((el) => {
+        // console.log(el.image.data)
+        const binary = Buffer.from(el.image).toString('base64');
+        const newImage = `data:image/jpeg;base64,${binary}`;
+        return {...el.dataValues, image: newImage}
+      })
+      res.status(200).json(newProducts);
     } catch (error) {
+      console.log(error)
       next(error);
     }
   }
@@ -84,6 +74,7 @@ class ControllerProduct {
         price,
         image: req.file.buffer,
       });
+      product.image.toString('base64')
       res.status(200).json({msg: "Update Product Success"});
     } catch (error) {
       next(error);

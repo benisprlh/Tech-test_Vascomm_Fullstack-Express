@@ -7,15 +7,15 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 
-router.get('/', ControllerProduct.getProducts);
+router.get('', ControllerProduct.getProducts);
 
-router.get('/:id', ControllerProduct.getProduct);
+router.get('/product/:id', ControllerProduct.getProduct);
 
 router.use(authentication, authorization)
 
 router.put('/:id',  upload.single('image'),ControllerProduct.updateProduct);
 
-router.post('/', upload.single('image'), ControllerProduct.addProduct);
+router.post('', upload.single('image'), ControllerProduct.addProduct);
 // router.delete('/:id', authorization, ControllerPost.deletePost);
 
 

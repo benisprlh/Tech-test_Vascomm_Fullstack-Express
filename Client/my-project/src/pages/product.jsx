@@ -1,38 +1,34 @@
 import { useEffect, useState } from "react";
-import { ModalAddUser } from "../components/modalAddUser";
-import { ModalEditUser } from "../components/modalEditUser";
 import axios from "axios";
 import BaseUrl from "../helpers/baseUrl";
 import { PopupDelete } from "../components/popupDelete";
-import { useResolvedPath } from "react-router-dom";
+import { ModalEditProduct } from "../components/modalEditProduct";
+import { ModalAddProduct } from "../components/modalAddProduct";
 import { getToken } from "../features/user/actions";
 
-export const UserManagement = () => {
-    const [user, setUser] = useState([])
+export const ProductManagement = () => {
+    const [product, setProduct] = useState([])
     const [id, setId] = useState(0)
     const [usernameSelected, setUsernameSelected] = useState()
+
     const token = getToken()
 
 
-    const fetchUsers = async () => {
+    const fetchProducts = async () => {
         try {
-          console.log(BaseUrl + 'users')
-            const {data} = await axios.get(BaseUrl + 'users/getall', {
+          console.log(BaseUrl + 'products')
+            const {data} = await axios.get(BaseUrl + 'products', 
+            {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             })
-            setUser(data)
+            setProduct(data)
             console.log(data)
         } catch (error) {
             console.log(error)
         }
     }
-
-
-    useEffect(() => {
-        fetchUsers()
-    }, [])
 
     const handleEditModal =(newId) => {
       setId(newId)
@@ -45,44 +41,48 @@ export const UserManagement = () => {
       document.getElementById("my_modal_delete").showModal()
     }
 
+    useEffect(() => {
+      fetchProducts()
+    }, [])
+
 
   return (
     <section className="m-3">
       <div className="flex flex-row justify-between">
         <div>
-          <h1 className="p-1">Manajemen User</h1>
+          <h1 className="p-1">Manajemen Produk</h1>
         </div>
         <button
           className="btn btn-info rounded-sm p-1 px-5 text-slate-200"
-          onClick={() => document.getElementById("my_modal_1").showModal()}
+          onClick={() => document.getElementById("my_modal_addProduct").showModal()}
         >
-          Tambah User
+          Tambah Produk
         </button>
-        <ModalAddUser />
-        <ModalEditUser id={id}/>
-        <PopupDelete id={id} username={usernameSelected}/>
+        <ModalAddProduct />
+        {/* <ModalEditProduct id={id}/> */}
+        {/* <PopupDelete id={id} username={usernameSelected}/> */}
       </div>
       <div className="m-2">
         <div className="overflow-x-auto">
           <table className="table">
-            {/* head */}
             <thead>
               <tr>
                 <th>No</th>
-                <th>Nama Lengkap</th>
-                <th>Email</th>
-                <th>Nomor Telepon</th>
+                <th>Gambar Produk</th>
+                <th>Nama Produk</th>
+                <th>Harga</th>
                 <th>Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {user?.map((el, index) => {
+              {product?.map((el, index) => {
               return <tr className="bg-base-200">
                  <th>{index + 1}</th>
+                <td ><img src={el.image} alt="" className="h-[50px] aspect-square"/></td>
                 <td>{el.name}</td>
-                <td>{el.email}</td>
-                <td>{el.phoneNumber}</td>
+                <td>{el.price}</td>
+                <td>{el.status}</td>
                 <td>
                   <div className="flex flex-row gap-1">
                     <h2 className="btn" onClick={() => handleDeleteModal(el.id, index)}>delete</h2>

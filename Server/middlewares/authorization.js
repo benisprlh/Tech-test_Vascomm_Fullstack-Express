@@ -7,6 +7,7 @@ async function authorization(req, res, next) {
     }
     throw {name: "You don't have access"}
   } catch (error) {
+    console.log(error)
     next(error);
   }
 }

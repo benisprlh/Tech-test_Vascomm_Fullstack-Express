@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Dashboard } from "../pages/dashboard";
 import { UserManagement } from "../pages/user";
+import { ProductManagement } from "../pages/product";
 
 export const SideBar = ({content}) => {
 
@@ -14,7 +15,7 @@ export const SideBar = ({content}) => {
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content bg-base-200">
-        {content === 'dashboard' ? <Dashboard /> : content === 'user' ? <UserManagement /> : ''}
+        {content === 'dashboard' ? <Dashboard /> : content === 'user' ? <UserManagement /> : <ProductManagement />}
         
         <label
           htmlFor="my-drawer-2"

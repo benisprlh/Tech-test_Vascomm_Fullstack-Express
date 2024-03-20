@@ -14,7 +14,11 @@ export const ModalAddUser = () => {
 
   const addUser = async () => {
     try {
-      const { data } = await axios.post(BaseUrl + "users/register", user);
+      const { data } = await axios.post(BaseUrl + "users/register", user, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(data);
     } catch (error) {
       console.log(error);

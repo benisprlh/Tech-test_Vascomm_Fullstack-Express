@@ -6,7 +6,7 @@ router.post('/login', ControllerUser.login);
 
 router.post('/register', ControllerUser.register);
 
-// router.use(authentication, authorization);
+router.use(authentication, authorization);
 
 router.put('/update/:id', ControllerUser.updateUser);
 

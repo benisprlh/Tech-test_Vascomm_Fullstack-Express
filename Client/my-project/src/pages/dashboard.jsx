@@ -2,6 +2,8 @@ import { Card } from "../components/card";
 import axios from "axios";
 import BaseUrl from "../helpers/baseUrl";
 import { useEffect, useState } from "react";
+import { getToken } from "../features/user/actions";
+
 
 export const Dashboard = () => {
     const [count, setCount] = useState({
@@ -13,9 +15,15 @@ export const Dashboard = () => {
 
     const [products, setProducts] = useState([])
 
+    const token = getToken()
+
     const fetchActivation = async () => {
         try {
-            const {data} = await axios.get(BaseUrl + 'users/active')
+            const {data} = await axios.get(BaseUrl + 'users/active', {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
             setCount(data)
         } catch (error) {
             console.log(error)

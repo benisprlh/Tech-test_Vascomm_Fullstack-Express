@@ -34,7 +34,6 @@ and your password is ${password}
     
       static async login(req, res, next) {
         const { email, password } = req.body;
-        console.log(req.body);
         try {
           if (!email) throw { name: 'validationError', message: 'email is required' };
     
@@ -48,7 +47,7 @@ and your password is ${password}
     
           const access_token = signToken({ id: user.id, role: user.role });
     
-          res.status(201).json({ access_token });
+          res.status(201).json({ access_token, role: user.role });
         } catch (error) {
           next(error);
         }

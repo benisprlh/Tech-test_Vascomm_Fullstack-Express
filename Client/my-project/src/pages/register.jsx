@@ -1,43 +1,8 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BaseUrl from "../helpers/baseUrl";
-import axios from "axios";
-import { getRole, getToken } from "../features/user/actions";
 
-export const Login = () => {
+export const Register = () => {
 
     const navigate = useNavigate()
-
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    })
-
-    const login = async () => {
-        try {
-            const {data} = await axios.post(BaseUrl + 'users/login', formData)
-            console.log(data)
-            localStorage.setItem('access_token', data.access_token)
-            localStorage.setItem('role', data.role)
-            if(data.role === 'admin') {
-                navigate('/admin/dashboard')
-            } else {
-                navigate('')
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleInput = (target) => {
-        console.log(target)
-        setFormData({...formData, ...target})
-    }
-
-    const handleSubmit = () => {
-        login()
-    }
-
 
     const handleClick = (param) => {
         navigate(param)
@@ -50,8 +15,23 @@ export const Login = () => {
         <div class="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
           <div class="max-w-md w-full p-6">
             <h1 class="text-3xl font-semibold mb-6 text-black text-center">
-                Login Page
+              Sign Up
             </h1>
+            <form action="#" method="POST" class="space-y-4">
+              <div>
+                <label
+                  for="username"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                />
+              </div>
               <div>
                 <label
                   for="email"
@@ -63,9 +43,7 @@ export const Login = () => {
                   type="text"
                   id="email"
                   name="email"
-                  value={formData.email}
                   class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                  onChange={(e) => handleInput({email: e.target.value})}
                 />
               </div>
               <div>
@@ -79,25 +57,23 @@ export const Login = () => {
                   type="password"
                   id="password"
                   name="password"
-                  value={formData.password}
                   class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                  onChange={(e) => handleInput({password: e.target.value})}
                 />
               </div>
               <div>
                 <button
                   type="submit"
-                  class="w-full mt-2 bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
-                  onClick={handleSubmit}
+                  class="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
                 >
-                  Masuk
+                  Sign Up
                 </button>
               </div>
+            </form>
             <div class="mt-4 text-sm text-gray-600 text-center">
               <p>
-                Sudah Memiliki Akun?
-                <a class="text-black hover:underline" onClick={() => handleClick('/register')}>
-                  Register here
+                Already have an account?{" "}
+                <a class="text-black hover:underline" onClick={() => handleClick('/login')}>
+                  Login here
                 </a>
               </p>
             </div>

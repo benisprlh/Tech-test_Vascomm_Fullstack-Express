@@ -2,7 +2,7 @@ const { verifyPassword } = require("../helper/bcrypt");
 const { signToken } = require("../helper/jwt");
 const sendEmail = require("../helper/sendEmail");
 const user = require("../models/user");
-const { User } = require("../models")
+const { User, Product } = require("../models")
 
 class ControllerUser {
     static async register(req, res, next) {
@@ -82,13 +82,35 @@ and your password is ${password}
             next(error)
         }
       }
+
       static async getUsers(req, res, next) {
         try {
-            const users = await User.findByPk(req.params.id);
+            const users = await User.findAll();
             res.status(200).json(users)
         } catch (error) {
             next(error)
         }
+      }
+
+      static async getActive(req, res, next) {
+        try {
+          const allUsers = await User.count();
+          const allUsersActive = await User.count({
+            where: {
+              status : 'active'
+            }
+          })
+          const allProduct = await Product.count();
+          const allProductActive = await Product.count({
+            where: {
+              status : 'active'
+            }
+          })
+          res.status(200).json({user: allUsers, userActive: allUsersActive, product: allProduct, productActive: allProductActive})
+      } catch (error) {
+        console.log(error)
+          next(error)
+      }
       }
 }
 

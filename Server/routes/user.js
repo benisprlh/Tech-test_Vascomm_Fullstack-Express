@@ -6,12 +6,16 @@ router.post('/login', ControllerUser.login);
 
 router.post('/register', ControllerUser.register);
 
-router.use(authentication, authorization);
+// router.use(authentication, authorization);
 
 router.put('/update/:id', ControllerUser.updateUser);
 
-router.get('/', ControllerUser.getUsers)
+router.get('/getall', ControllerUser.getUsers)
+
+router.get('/active', ControllerUser.getActive)
 
 router.get('/:id', ControllerUser.getUserById)
+
+
 
 module.exports = router;

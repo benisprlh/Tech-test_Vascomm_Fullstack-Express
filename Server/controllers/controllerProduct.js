@@ -40,9 +40,7 @@ class ControllerProduct {
           association: "Category",
         },
       ],
-      where: {
-        deletedAt 
-      },
+      where: {},
       limit: 10,
       offset: 0,
       order: [["id", "ASC"]],

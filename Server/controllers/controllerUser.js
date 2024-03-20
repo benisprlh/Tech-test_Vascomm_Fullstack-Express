@@ -112,6 +112,20 @@ and your password is ${password}
           next(error)
       }
       }
+
+      static async deleteUser(req, res, next) {
+        try {
+          const user = await User.findByPk(req.params.id);
+
+          if (!user) throw { name: 'not found' };
+
+          await user.destroy()
+
+          res.status(200).json({msg: "Delete Success"})
+        } catch (error) {
+          console.log(error)
+        }
+      }
 }
 
 module.exports = ControllerUser

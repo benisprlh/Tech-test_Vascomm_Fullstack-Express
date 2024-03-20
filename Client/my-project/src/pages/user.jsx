@@ -3,10 +3,13 @@ import { ModalAddUser } from "../components/modalAddUser";
 import { ModalEditUser } from "../components/modalEditUser";
 import axios from "axios";
 import BaseUrl from "../helpers/baseUrl";
+import { PopupDelete } from "../components/popupDelete";
+import { useResolvedPath } from "react-router-dom";
 
 export const UserManagement = () => {
     const [user, setUser] = useState([])
     const [id, setId] = useState(0)
+    const [usernameSelected, setUsernameSelected] = useState()
 
 
     const fetchUsers = async () => {
@@ -25,9 +28,15 @@ export const UserManagement = () => {
         fetchUsers()
     }, [])
 
-    const handleEditModal =(id) => {
-      setId(id)
+    const handleEditModal =(newId) => {
+      setId(newId)
       document.getElementById("my_modal_2").showModal()
+    }
+
+    const handleDeleteModal = (newId, index) => {
+      setId(newId)
+      setUsernameSelected(user[index]?.name)
+      document.getElementById("my_modal_delete").showModal()
     }
 
 
@@ -45,6 +54,7 @@ export const UserManagement = () => {
         </button>
         <ModalAddUser />
         <ModalEditUser id={id}/>
+        <PopupDelete id={id} username={usernameSelected}/>
       </div>
       <div className="m-2">
         <div className="overflow-x-auto">
@@ -69,7 +79,7 @@ export const UserManagement = () => {
                 <td>{el.phoneNumber}</td>
                 <td>
                   <div className="flex flex-row gap-1">
-                    <h2 className="btn">delete</h2>
+                    <h2 className="btn" onClick={() => handleDeleteModal(el.id, index)}>delete</h2>
                     <h2 className="btn" onClick={() => handleEditModal(el.id)}>edit</h2>
                    
                   </div>

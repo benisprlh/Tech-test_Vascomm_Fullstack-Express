@@ -30,7 +30,7 @@ export const SideBar = ({content}) => {
           className="drawer-overlay"
         ></label>
         <ul className="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
-          <li className={content === "dashboard" ? "bg-blue-300 rounded-lg": ''} onClick={() => changePage('/admin')}>
+          <li className={content === "dashboard" ? "bg-blue-300 rounded-lg": ''} onClick={() => changePage('/admin/dashboard')}>
             <a>Dashboard</a>
           </li>
           <li className={content === "user" ? "bg-blue-300 rounded-lg": ''} onClick={() => changePage('/admin/user')}>

@@ -14,6 +14,8 @@ router.get('/getall', ControllerUser.getUsers)
 
 router.get('/active', ControllerUser.getActive)
 
+router.delete('/delete/:id', ControllerUser.deleteUser)
+
 router.get('/:id', ControllerUser.getUserById)
 
 

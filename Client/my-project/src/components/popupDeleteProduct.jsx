@@ -1,14 +1,20 @@
 import axios from "axios";
 import BaseUrl from "../helpers/baseUrl";
 import { useNavigate } from "react-router-dom";
+import { getToken } from "../features/user/actions";
 
-export const PopupDelete = ({id, username}) => {
+export const PopupDeleteProduct = ({id, username}) => {
 
     const navigate = useNavigate()
+    const token = getToken()
 
     const deleteData = async () => {
         try {
-            const {data} = await axios.delete(BaseUrl + `users/delete/${id}`)
+            const {data} = await axios.delete(BaseUrl + `products/${id}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
             console.log(data)
             navigate('/admin/dashboard')
         } catch (error) {
@@ -21,7 +27,7 @@ export const PopupDelete = ({id, username}) => {
     }
 
   return (
-    <dialog id="my_modal_delete" className="modal">
+    <dialog id="my_product_delete" className="modal">
       <div className="modal-box ">
         <div className="flex flex-col justify-center items-center">
           <h3 className="font-bold text-lg">Konfirmasi Hapus</h3>

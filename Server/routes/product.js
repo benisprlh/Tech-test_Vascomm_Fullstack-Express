@@ -16,7 +16,8 @@ router.use(authentication, authorization)
 router.put('/:id',  upload.single('image'),ControllerProduct.updateProduct);
 
 router.post('', upload.single('image'), ControllerProduct.addProduct);
-// router.delete('/:id', authorization, ControllerPost.deletePost);
+
+router.delete('/:id', authorization, ControllerProduct.deleteProduct);
 
 
 module.exports = router;

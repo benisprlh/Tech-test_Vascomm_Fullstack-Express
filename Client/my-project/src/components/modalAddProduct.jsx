@@ -25,6 +25,7 @@ export const ModalAddProduct = ({ id }) => {
         },
       });
       console.log(data);
+      navigate('/admin/dashboard')
     } catch (error) {
       console.log(error);
     }

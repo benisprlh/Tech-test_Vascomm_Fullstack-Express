@@ -3,7 +3,7 @@ import { ModalAddUser } from "../components/modalAddUser";
 import { ModalEditUser } from "../components/modalEditUser";
 import axios from "axios";
 import BaseUrl from "../helpers/baseUrl";
-import { PopupDelete } from "../components/popupDelete";
+import { PopupDelete } from "../components/popupDeleteUser";
 import { useResolvedPath } from "react-router-dom";
 import { getToken } from "../features/user/actions";
 
@@ -85,7 +85,7 @@ export const UserManagement = () => {
                 <td>{el.phoneNumber}</td>
                 <td>
                   <div className="flex flex-row gap-1">
-                    <h2 className="btn" onClick={() => handleDeleteModal(el.id, index)}>delete</h2>
+                    <h2 className="btn" onClick={() => handleDeleteModal(el.id, index)}>Hapus</h2>
                     <h2 className="btn" onClick={() => handleEditModal(el.id)}>edit</h2>
                    
                   </div>

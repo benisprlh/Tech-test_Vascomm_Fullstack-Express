@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BaseUrl from "../helpers/baseUrl";
-import { PopupDelete } from "../components/popupDelete";
+import { PopupDelete } from "../components/popupDeleteUser";
 import { ModalEditProduct } from "../components/modalEditProduct";
 import { ModalAddProduct } from "../components/modalAddProduct";
 import { getToken } from "../features/user/actions";
+import { PopupDeleteProduct } from "../components/popupDeleteProduct";
 
 export const ProductManagement = () => {
     const [product, setProduct] = useState([])
@@ -37,8 +38,8 @@ export const ProductManagement = () => {
 
     const handleDeleteModal = (newId, index) => {
       setId(newId)
-      setUsernameSelected(user[index]?.name)
-      document.getElementById("my_modal_delete").showModal()
+      setUsernameSelected(product[index]?.name)
+      document.getElementById("my_product_delete").showModal()
     }
 
     useEffect(() => {
@@ -60,7 +61,7 @@ export const ProductManagement = () => {
         </button>
         <ModalAddProduct />
         {/* <ModalEditProduct id={id}/> */}
-        {/* <PopupDelete id={id} username={usernameSelected}/> */}
+        <PopupDeleteProduct id={id} username={usernameSelected}/>
       </div>
       <div className="m-2">
         <div className="overflow-x-auto">
@@ -85,7 +86,7 @@ export const ProductManagement = () => {
                 <td>{el.status}</td>
                 <td>
                   <div className="flex flex-row gap-1">
-                    <h2 className="btn" onClick={() => handleDeleteModal(el.id, index)}>delete</h2>
+                    <h2 className="btn" onClick={() => handleDeleteModal(el.id, index)}>Hapus</h2>
                     <h2 className="btn" onClick={() => handleEditModal(el.id)}>edit</h2>
                    
                   </div>

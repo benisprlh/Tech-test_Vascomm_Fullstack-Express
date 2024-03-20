@@ -85,8 +85,8 @@ class ControllerProduct {
     try {
       const product = await Product.findByPk(req.params.id);
       if (!product) throw { name: 'not found' };
-      await product.update({deletedAt: new Date()});
-      res.status(200).json({ msg: `${product.title} success to delete` });
+      await product.destroy()
+      res.status(200).json({ msg: `${product.name} success to delete` });
     } catch (error) {
       next(error);
     }

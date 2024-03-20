@@ -9,9 +9,30 @@ export const ModalEditProduct = ({ id }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [status, setStatus] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [formData, setFormData] = useState();
+
+  const navigate = useNavigate();
+
+  const token = getToken();
+
+  const editProduct = async () => {
+    try {
+      const { data } = await axios.put(BaseUrl + `products/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
   const handleNameChange = (e) => {
@@ -34,29 +55,24 @@ export const ModalEditProduct = ({ id }) => {
     formData.append("name", name);
     formData.append("price", price);
     formData.append("status", status);
-  };
+    setFormData(formData)
 
-  const navigate = useNavigate();
-
-  const token = getToken()
-
-  const editProduct = async () => {
-    try {
-      const { data } = await axios.put(BaseUrl + `products/update/${id}`, user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    await editProduct();
+    navigate("/admin/product");
   };
 
   const fetchProduct = async () => {
     try {
-      const { data } = await axios.get(BaseUrl + `products/${id}`);
-      setUser(data);
+      const { data } = await axios.get(BaseUrl + `products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setName(data.name);
+      setPrice(data.price);
+      setStatus(data.status);
+      setFileName(`${data.name}.jpg`)
+      console.log(data)
     } catch (error) {
       console.log(error);
     }
@@ -130,8 +146,11 @@ export const ModalEditProduct = ({ id }) => {
                       />
                     </svg>
                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span class="font-semibold">Click to upload</span> or drag
-                      and drop
+                    {fileName ? (
+                        <span className="font-semibold">{fileName}</span>
+                      ) : (
+                        "Click to upload or drag and drop"
+                      )}
                     </p>
                     <p class="text-xs text-gray-500 dark:text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)

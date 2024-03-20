@@ -19,8 +19,6 @@ class ControllerProduct {
     }
   }
 
-  
-
   static async getProducts(req, res, next) {
     const { take, skip, search } = req.query;
     let paramQuerySQL = {
@@ -50,13 +48,13 @@ class ControllerProduct {
       const dataProducts = await Product.findAll();
       const newProducts = dataProducts.map((el) => {
         // console.log(el.image.data)
-        const binary = Buffer.from(el.image).toString('base64');
+        const binary = Buffer.from(el.image).toString("base64");
         const newImage = `data:image/jpeg;base64,${binary}`;
-        return {...el.dataValues, image: newImage}
-      })
+        return { ...el.dataValues, image: newImage };
+      });
       res.status(200).json(newProducts);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       next(error);
     }
   }
@@ -64,18 +62,21 @@ class ControllerProduct {
   static async updateProduct(req, res, next) {
     const { name, price } = req.body;
     try {
-        if (!req.file) {
-            return res.status(400).send("No files were uploaded.");
-          }
       const product = await Product.findByPk(req.params.id);
-      if (!product) throw { name: 'not found' };
-      await product.update({
-        name,
-        price,
-        image: req.file.buffer,
-      });
-      product.image.toString('base64')
-      res.status(200).json({msg: "Update Product Success"});
+      if (!product) throw { name: "not found" };
+      if (!req.file) {
+        await product.update({
+          name,
+          price,
+        });
+      } else {
+        await product.update({
+          name,
+          price,
+          image: req.file.buffer,
+        });
+      }
+      res.status(200).json({ msg: "Update Product Success" });
     } catch (error) {
       next(error);
     }
@@ -84,8 +85,8 @@ class ControllerProduct {
   static async deleteProduct(req, res, next) {
     try {
       const product = await Product.findByPk(req.params.id);
-      if (!product) throw { name: 'not found' };
-      await product.destroy()
+      if (!product) throw { name: "not found" };
+      await product.destroy();
       res.status(200).json({ msg: `${product.name} success to delete` });
     } catch (error) {
       next(error);
@@ -95,10 +96,10 @@ class ControllerProduct {
   static async getProduct(req, res, next) {
     try {
       const product = await Product.findByPk(req.params.id);
-      if (!product) throw { name: 'not found' };
-      res.status(200).json(product)
+      if (!product) throw { name: "not found" };
+      res.status(200).json(product);
     } catch (error) {
-        next(error)
+      next(error);
     }
   }
 }

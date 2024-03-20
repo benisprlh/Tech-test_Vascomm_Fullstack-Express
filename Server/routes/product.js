@@ -9,7 +9,7 @@ const upload = multer({ storage: storage });
 
 router.get('', ControllerProduct.getProducts);
 
-router.get('/product/:id', ControllerProduct.getProduct);
+router.get('/:id', ControllerProduct.getProduct);
 
 router.use(authentication, authorization)
 

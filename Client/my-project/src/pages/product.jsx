@@ -33,7 +33,7 @@ export const ProductManagement = () => {
 
     const handleEditModal =(newId) => {
       setId(newId)
-      document.getElementById("my_modal_2").showModal()
+      document.getElementById("my_modal_editProduct").showModal()
     }
 
     const handleDeleteModal = (newId, index) => {
@@ -60,7 +60,7 @@ export const ProductManagement = () => {
           Tambah Produk
         </button>
         <ModalAddProduct />
-        {/* <ModalEditProduct id={id}/> */}
+        <ModalEditProduct id={id}/>
         <PopupDeleteProduct id={id} username={usernameSelected}/>
       </div>
       <div className="m-2">
